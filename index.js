@@ -132,6 +132,19 @@ function arraysToNumber(arrays) {
  * @returns {string} string with the just the first item of the arrays with a length divisible by 3
  */
 function arraysToString(arrays) {
+  // alternative to modulus using bitwise operations
+  const divis3 = (x) => {
+    while (x & ~3) {
+      sum = 0;
+      while (x) {
+        sum += x & 3;
+        x >>= 2;
+      }
+      x = sum;
+    }
+    return x == 0 || x == 3;
+  };
+
   return arrays.reduce((a, b) => a + (b.length % 3 === 0 ? b[0] : ""), "");
 }
 
