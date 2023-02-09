@@ -21,14 +21,19 @@ jobs:
               breaking_change: "major",
               breaking: "major"
             };
-            const version = semverMap[title.split("(")[0]];
-            if (version) {
-              const child = exec("npm version " + version), (error, stdout, stderr) => {
-                if(error) core.setFailed(error);
-                if(stderr) console.log(stderr);
-                console.info(stdout);
+            try {
+              const version = semverMap[title.split("(")[0]];
+              if (version) {
+                const child = exec("npm version " + version), (error, stdout, stderr) => {
+                  if(error) core.setFailed(error);
+                  if(stderr) console.log(stderr);
+                  console.info(stdout);
+                }
+              } else {
+                console.log("To update package version use one of the following in your PR title:");
+                console.table(semverMap);
               }
-            } else {
-              console.log("To update package version use one of the following in your PR title:");
-              console.table(semverMap);
+            } catch(e) {
+              console.error(e);
+              core.setFailed(e);
             }
