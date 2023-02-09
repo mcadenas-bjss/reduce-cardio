@@ -1,7 +1,7 @@
 name: Update Package semantic version
 on:
   push:
-    branches: ['develop']
+    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-        
-      - name: 'change version'
+
+      - name: "change version"
         uses: actions/github-script@v6
         with:
           script: |
@@ -21,13 +21,13 @@ jobs:
               breaking_change: "major",
               breaking: "major"
             };
-            const version = semverMap.get(context.payload.pull_request.title.split("(")[0])
+            const version = semverMap[context.payload.pull_request.title.split("(")[0]];
             if (version) {
-              const child = exec("npm version " + version), (error, stdout, stderr) => {
+              const child = exec("npm version " + version, (error, stdout, stderr) => {
                 if(error) core.setFailed(error);
                 if(stderr) console.log(stderr);
                 console.info(stdout);
-              }
+              });
             } else {
               console.log("To update package version use one of the following in your PR title:");
               console.table(semverMap);
