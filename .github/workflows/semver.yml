@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+          
       - name: Update
         uses: actions/github-script@v6
         with:
@@ -21,11 +22,13 @@ jobs:
               breaking: "major"
             };
 
-            console.log(context.payload);
+            // console.log(context.payload);
             const version = semverMap[context.payload.head_commit.message.split("(")[0]];
 
             async function update() {
               if (version) {
+                const name = await exec.exec('git config --global user.name "GitHub"');
+                const email = await exec.exec('git config --global user.email "noreply@github.com"');
                 const child = await exec.exec("npm version " + version);
                 console.log(child);
               } else {
