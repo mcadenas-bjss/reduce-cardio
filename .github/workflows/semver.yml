@@ -2,6 +2,8 @@ name: Update Package semantic version
 on:
   push:
     branches: ["main"]
+permissions:
+  actions: write
 jobs:
   build:
     runs-on: ubuntu-latest
