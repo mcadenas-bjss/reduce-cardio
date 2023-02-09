@@ -1,0 +1,34 @@
+name: Label PRs
+on:
+  pull_request:
+    branches: ['develop']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@develop
+        
+      - name: 'change version'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const semverMap = {
+              feat: "minor",
+              fix: "patch",
+              breaking_change: "major",
+              breaking: "major"
+            };
+            const version = semverMap.get(context.payload.pull_request.title.split("(")[0])
+            if (version) {
+              const child = exec("npm version " + version), (error, stdout, stderr) => {
+                if(error) core.setFailed(error);
+                if(stderr) console.log(stderr);
+                console.info(stdout);
+              }
+            } else {
+              console.log("To update package version use one of the following in your PR title:");
+              console.table(semverMap);
+            }
