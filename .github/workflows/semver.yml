@@ -8,9 +8,10 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/github-script@v6
-      - uses: actions/exec
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update
+        uses: actions/github-script@v6
         with:
           script: |
             const semverMap = {
