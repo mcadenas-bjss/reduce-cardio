@@ -22,14 +22,14 @@ jobs:
               breaking: "major"
             };
             console.log(context.payload);
-            // const version = semverMap[context.payload.commit.title.split("(")[0]];
-            // if (version) {
-            //   const child = exec("npm version " + version, (error, stdout, stderr) => {
-            //     if(error) core.setFailed(error);
-            //     if(stderr) console.log(stderr);
-            //     console.info(stdout);
-            //   });
-            // } else {
-            //   console.log("To update package version use one of the following in your PR title:");
-            //   console.table(semverMap);
-            // }
+            const version = semverMap[context.head_commit.message.split("(")[0]];
+            if (version) {
+              const child = exec("npm version " + version, (error, stdout, stderr) => {
+                if(error) core.setFailed(error);
+                if(stderr) console.log(stderr);
+                console.info(stdout);
+              });
+            } else {
+              console.log("To update package version use one of the following in your PR title:");
+              console.table(semverMap);
+            }
