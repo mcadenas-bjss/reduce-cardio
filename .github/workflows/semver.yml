@@ -15,7 +15,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const exec = require('child_process').exec;
             const semverMap = {
               feat: "minor",
               fix: "patch",
