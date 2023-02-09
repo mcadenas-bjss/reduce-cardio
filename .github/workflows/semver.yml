@@ -8,23 +8,22 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: "update package version"
-        uses: actions/github-script@v6
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+      - uses: actions/exec
         with:
           script: |
-            const { exec } = require('node:child_process');
             const semverMap = {
               feat: "minor",
               fix: "patch",
               breaking_change: "major",
               breaking: "major"
             };
+
             const version = semverMap[context.payload.head_commit.message.split("(")[0]];
+
             if (version) {
-              const child = exec("npm version " + version, (error, stdout, stderr) => {
+              const child = exec.exec("npm version " + version, (error, stdout, stderr) => {
                 if(error) core.setFailed(error);
                 if(stderr) console.log(stderr);
                 console.info(stdout);
