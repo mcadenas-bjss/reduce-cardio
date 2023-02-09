@@ -9,9 +9,9 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
-      - name: "change version"
+      - name: "update package version"
         uses: actions/github-script@v6
         with:
           script: |
@@ -22,14 +22,14 @@ jobs:
               breaking: "major"
             };
             console.log(context.payload);
-            const version = semverMap[context.payload.commit.title.split("(")[0]];
-            if (version) {
-              const child = exec("npm version " + version, (error, stdout, stderr) => {
-                if(error) core.setFailed(error);
-                if(stderr) console.log(stderr);
-                console.info(stdout);
-              });
-            } else {
-              console.log("To update package version use one of the following in your PR title:");
-              console.table(semverMap);
-            }
+            # const version = semverMap[context.payload.commit.title.split("(")[0]];
+            # if (version) {
+            #   const child = exec("npm version " + version, (error, stdout, stderr) => {
+            #     if(error) core.setFailed(error);
+            #     if(stderr) console.log(stderr);
+            #     console.info(stdout);
+            #   });
+            # } else {
+            #   console.log("To update package version use one of the following in your PR title:");
+            #   console.table(semverMap);
+            # }
