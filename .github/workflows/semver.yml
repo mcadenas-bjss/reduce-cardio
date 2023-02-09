@@ -21,7 +21,7 @@ jobs:
               breaking_change: "major",
               breaking: "major"
             };
-            const version = semverMap.get(context.payload.pull_request.title.split("(")[0])
+            const version = semverMap[title.split("(")[0]];
             if (version) {
               const child = exec("npm version " + version), (error, stdout, stderr) => {
                 if(error) core.setFailed(error);
