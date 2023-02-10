@@ -16,6 +16,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            console.log(github.ref);
             const semverMap = {
               feat: "minor",
               fix: "patch",
